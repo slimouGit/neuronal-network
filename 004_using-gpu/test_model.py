@@ -14,7 +14,7 @@ class ModelTester:
 
         # Modell initialisieren und laden
         self.model = NeuralNetwork(num_inputs, num_outputs)
-        self.model.load_state_dict(torch.load(model_path, map_location=self.device))
+        self.model.load_state_dict(torch.load(model_path, map_location=self.device, weights_only=True))
         self.model = self.model.to(self.device)
         self.model.eval()
 
