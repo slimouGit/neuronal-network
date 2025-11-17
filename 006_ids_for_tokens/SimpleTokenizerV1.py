@@ -92,46 +92,4 @@ print("\nDecoded back:")
 print(decoded)
 # print(failed_decoded)
 
-# Save as a standalone file for the user
-program_code = f'''#!/usr/bin/env python3
-import re
 
-class SimpleTokenizerV1:
-    def __init__(self, vocab):
-        self.str_to_int = dict(vocab)
-        self.int_to_str = {{i: s for s, i in vocab.items()}}
-        self._split_re = re.compile(r'([.,!?\\\\"“”()\\' + "']" + r'+|\\s)')
-
-    def encode(self, text):
-        parts = self._split_re.split(text)
-        tokens = [p for p in parts if p and not p.isspace()]
-        return [self.str_to_int[t] for t in tokens]
-
-    def decode(self, ids):
-        tokens = [self.int_to_str[i] for i in ids]
-        text = " ".join(tokens)
-        text = re.sub(r'\\s+([.,!?\\\"””)\\'];:])', r'\\1', text)
-        text = re.sub(r'([(\\\"“])\\s+', r'\\1', text)
-        return text
-
-def build_vocab_from_text(text):
-    split_re = re.compile(r'([.,!?\\\"“”()\\' + "']" + r'+|\\s)')
-    parts = split_re.split(text)
-    tokens = [p for p in parts if p and not p.isspace()]
-    seen = {{}}
-    for tok in tokens:
-        if tok not in seen:
-            seen[tok] = len(seen)
-    return seen
-
-if __name__ == "__main__":
-    training_text = "\\\"It's the last he painted, you know,\\\" Mrs. Gisburn said with pardonable pride."
-    vocab = build_vocab_from_text(training_text)
-    tokenizer = SimpleTokenizerV1(vocab)
-    ids = tokenizer.encode(training_text)
-    print(ids)
-    print(tokenizer.decode(ids))
-'''
-path = Path("/mnt/data/simple_tokenizer_v1.py")
-path.write_text(program_code, encoding="utf-8")
-print(f"\nSaved standalone script to: {path}")
