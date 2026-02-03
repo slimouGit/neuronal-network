@@ -18,7 +18,7 @@ for token_id in range(vocab_size):
         # Skip invalid token IDs
         continue
 
-for tid, t in tokens[:500]:
+for tid, t in tokens[:1000]:
     print(tid, t)
 
 with open("tiktoken_vocab.json", "w", encoding="utf-8") as f:
